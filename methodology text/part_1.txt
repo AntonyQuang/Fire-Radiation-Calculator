@@ -1,2 +1,3 @@
 The temperature of the radiating panel is dependent on the heat release rate of the fire. Once the heat release rate is known, the flame temperature can be found, and this temperature then used in the radiation calculations.
+
 The heat release rate of the fire at a given time can be calculated based on the fire growth curve. Applying generalized relationship given as equation 22 in PD 7974-1, the fire growth rate for a train fire will be:

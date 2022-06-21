@@ -2,5 +2,4 @@ Where φ is the view factor, ε is the emissivity of the flames and σ is the St
 
 To incorporate a margin of safety, the train was treated as a black box emitter with an emissivity of 1.
 
-Annex C of PD 7974-1 gives the expressions for calculating the view factor. The view factor for a radiating panel with the
-receiver facing the panel and in the corner of the panel can be calculated from:
+Annex C of PD 7974-1 gives the expressions for calculating the view factor. The view factor for a radiating panel with the receiver facing the panel and in the corner of the panel can be calculated from:
