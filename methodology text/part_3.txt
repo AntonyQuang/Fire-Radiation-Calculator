@@ -1,0 +1,7 @@
+Where χC is the convective fraction, z is the height the temperature is measured at, z0 is the virtual origin, D is the diameter of the fire and Q" is the heat release rate per unit area.
+
+To incorporate a margin of safety, the temperature of the radiating panel was calculated at the mid-height of the panel and the centreline temperature of the fire plume was assumed to be consistent across the panel.
+
+To simplify the calculations and incorporate a margin of error, it was assumed that all areas of the radiating panels are at the same temperature. This is conservative as it will take time for a fire to spread through the car, resulting in temperatures in a significant area of the car being lower that those calculated.
+
+Once the temperature of the radiating panel is determined, the radiative heat flux at a particular distance from the panel can be calculated using the temperature of the panel and the view factor to the panel, using equation 19 from PD 7974-1. This expression is below.

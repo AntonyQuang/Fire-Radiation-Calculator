@@ -1,0 +1,1 @@
+Where a is the width of the panel, b is the height of the panel and c is the distance to the receiver. To calculate the view factor for more complex radiating panels, such as those representing a train, the panel can be broken down into smaller, simpler panels, the view factor calculated for the smaller panels and the view factors added/subtracted to find the total view factor.
