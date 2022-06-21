@@ -1,0 +1,2 @@
+Where α is the fire growth rate and t is the time.
+The excess plume temperature can then be calculated using equation 16 of PD 7974-1. This also requires the convective fire size (equation 2 of PD 7974-1), the virtual origin (equation 10 of PD 7974-1) and fire diameter to be calculated. These equations are presented below:
