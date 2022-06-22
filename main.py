@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
+from methodology_reader import methodology_text, methodology_equations
 
 # from tkinter import messagebox
 
@@ -7,10 +8,11 @@ from tkinter.ttk import *
 
 root = Tk()
 root.title("Fire Radiation Calculator")
-root.geometry('+0+0')  # opens window in the top left corner of the screen
+root.geometry('850x900+0+0')  # opens window in the top left corner of the screen
 # root.config(width=1740, height=800)
 
 root_style = Style()
+# root_style.theme_use("alt")
 root_style.configure("heading.TLabel", font=("Calibri", 20))
 root_style.configure("body.TLabel", font=("Calibri", 12))
 root_style.configure("body.TEntry", font=("Calibri", 12))
@@ -177,5 +179,46 @@ quit_button.grid(row=13, column=0, pady=10, sticky=W)
 train_img = PhotoImage(file="diagram_small.png")
 img_label = Label(train_img_tab, image=train_img)
 img_label.grid(row=0, column=0, rowspan=15, padx=10)
+
+# ---- Methodology Tab ----- #
+
+method_canvas = Canvas(methodology_tab, width=800)
+method_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+# Scrollbar
+
+method_scrollbar = Scrollbar(methodology_tab, orient="vertical", command=method_canvas.yview)
+method_scrollbar.pack(side=RIGHT, fill="y", expand=1)
+
+method_canvas.configure(yscrollcommand= method_scrollbar.set)
+method_canvas.bind('<Configure>', lambda e: method_canvas.configure(scrollregion=method_canvas.bbox("all")))
+
+method_content_frame = Frame(method_canvas)
+
+method_canvas.create_window((0, 0), window=method_content_frame, anchor="nw")
+
+# Adding the methodology text
+methodology_text_widgets = []
+text_row_placement = 0
+for i in range(len(methodology_text)):
+    current_methodology_text = Label(method_content_frame, text=methodology_text[i], justify=LEFT, wraplength=790)
+    current_methodology_text.grid(row=text_row_placement, column=0, sticky=W)
+    methodology_text_widgets.append(current_methodology_text)
+    text_row_placement += 2
+
+# Adding the equations
+methodology_equations_widgets = []
+methodology_equations_list = []
+equation_row_placement = 1
+for i in range(len(methodology_equations)):
+    current_equation_img = PhotoImage(file=methodology_equations[i])
+    methodology_equations_list.append(current_equation_img)
+
+    current_equation = Label(method_content_frame, image=methodology_equations_list[i])
+    current_equation.grid(row=equation_row_placement, column=0)
+
+    methodology_equations.append(current_equation)
+    equation_row_placement += 2
+
 
 root.mainloop()
