@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from methodology_reader import methodology_text, methodology_equations
-from validator import entry_check
+from input_manager import process_inputs
 
 # ------ UI SETUP ------ #
 
@@ -136,7 +136,7 @@ def reset_default():
 
 # Buttons
 calculate_button = Button(input_tab, text="Calculate Separation Distances", style="body.TButton", padding=(0, 5),
-                          command=lambda: entry_check(all_inputs))
+                          command=lambda: process_inputs(all_inputs))
 calculate_button.grid(row=12, column=2, pady=(10, 10), sticky=E)
 
 clear_all_button = Button(input_tab, text="Clear All", style="body.TButton", padding=(0, 5), command=clear_all)
