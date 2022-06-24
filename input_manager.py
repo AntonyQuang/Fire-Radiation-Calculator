@@ -1,27 +1,28 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
+from calculator import calculate
 
-# widths_fields = ["End windows' outer width",
-#                  "End windows' inner width",
-#                  "Centre windows' outer width",
-#                  "Doors' outer width",
-#                  "Doors' inner width"]
+# widths_fields = ["End windows' outer width, m",
+#                  "End windows' inner width, m",
+#                  "Centre windows' outer width, m",
+#                  "Doors' outer width, m",
+#                  "Doors' inner width, m"]
 #
-# heights_fields = ["End windows' height",
-#                   "Centre windows' height",
-#                   "Doors' height"]
+# heights_fields = ["End windows' height, m",
+#                   "Centre windows' height, m",
+#                   "Doors' height, m"]
 #
 # fire_fields = ["Maximum Fire Size, MW",
 #                "Heat Release Rate per Unit Area, kW/m\u00B2",
 #                "Convection Fraction (0 to 1)"]
-#
-# fire_combo_fields = ["Fire Growth Rate, \u03B1"]
+
+# fire_combo_fields = ["Fire Growth Rate, \u03B1, kW/s\u00B2"]
 
 # all_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
 
 
-def entry_check(all_inputs):
+def process_inputs(all_inputs):
     for entry_dictionary in all_inputs:
         for entry in entry_dictionary:
             if not entry_dictionary[entry].get():
@@ -64,5 +65,8 @@ def entry_check(all_inputs):
         return messagebox.showerror(title="Error - Incorrect Convection Fraction",
                                     message='Please enter a convection fraction between 0 and 1')
 
-    return all_inputs[1], all_inputs[2], all_inputs[3]
+    fire_growth_rates = {"Slow": 0.0029, "Medium": 0.012, "Fast": 0.047, "Ultra-fast": 0.188}
+    all_inputs[4]["Fire Growth Rate, \u03B1, kW/s\u00B2"] = fire_growth_rates[all_inputs[4]["Fire Growth Rate, \u03B1, kW/s\u00B2"].get()]
+
+    calculate(all_inputs)
 
