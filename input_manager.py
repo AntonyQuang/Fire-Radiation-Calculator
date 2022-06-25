@@ -11,12 +11,14 @@ from calculator import calculate
 #
 # heights_fields = ["End windows' height, m",
 #                   "Centre windows' height, m",
-#                   "Doors' height, m"]
+#                   "Windows' midpoint height from floor, m",
+#                   "Doors' height, m",
+#                   "Doors' midpoint height from floor, m"]
 #
 # fire_fields = ["Maximum Fire Size, MW",
 #                "Heat Release Rate per Unit Area, kW/m\u00B2",
 #                "Convection Fraction (0 to 1)"]
-
+#
 # fire_combo_fields = ["Fire Growth Rate, \u03B1, kW/s\u00B2"]
 
 # all_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
@@ -60,6 +62,10 @@ def process_inputs(all_inputs):
     if all_inputs[1]["End windows' outer width, m"] == all_inputs[1]["Doors' outer width, m"]:
         return messagebox.showerror(title="Error - Incompatible Dimensions",
                                     message=f'Please check door and end window widths')
+
+    if all_inputs[2]["Doors' midpoint height from floor, m"] > all_inputs[2]["Doors' height, m"]:
+        return messagebox.showerror(title="Error - Incompatible Dimensions",
+                                    message=f'Please check door height and midpoint height')
 
     if all_inputs[3]["Convection Fraction (0 to 1)"] > 1:
         return messagebox.showerror(title="Error - Incorrect Convection Fraction",
