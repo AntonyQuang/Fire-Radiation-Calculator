@@ -39,7 +39,9 @@ widths_fields = ["End windows' outer width, m",
 
 heights_fields = ["End windows' height, m",
                   "Centre windows' height, m",
-                  "Doors' height, m"]
+                  "Windows' midpoint height from floor, m",
+                  "Doors' height, m",
+                  "Doors' midpoint height from floor, m"]
 
 fire_fields = ["Maximum Fire Size, MW",
                "Heat Release Rate per Unit Area, kW/m\u00B2",
@@ -97,10 +99,10 @@ for i in range(len(widths_fields)):
 for i in range(len(heights_fields)):
     field_name = heights_fields[i]
     heights_labels[field_name] = Label(input_tab, text=field_name, style="body.TLabel", padding=(0, 5))
-    heights_labels[field_name].grid(row=2 * i + 2, column=2, padx=(0, 20))
+    heights_labels[field_name].grid(row=i + 2, column=2, padx=(0, 20))
 
     heights_entries[field_name] = Entry(input_tab, width=5, style="body.TEntry")
-    heights_entries[field_name].grid(row=2 * i + 2, column=3, sticky="W")
+    heights_entries[field_name].grid(row=i + 2, column=3, sticky="W")
 
 for i in range(len(fire_fields)):
     field_name = fire_fields[i]
