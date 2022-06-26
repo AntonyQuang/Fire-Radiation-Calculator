@@ -114,7 +114,7 @@ for i in range(len(fire_fields)):
 
 # Saving inputs
 
-all_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
+raw_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
 
 # Input Button commands
 
@@ -138,7 +138,7 @@ def reset_default():
 
 # Buttons
 calculate_button = Button(input_tab, text="Calculate Separation Distances", style="body.TButton", padding=(0, 5),
-                          command=lambda: process_inputs(all_inputs))
+                          command=lambda: process_inputs(raw_inputs))
 calculate_button.grid(row=12, column=2, pady=(10, 10), sticky=E)
 
 clear_all_button = Button(input_tab, text="Clear All", style="body.TButton", padding=(0, 5), command=clear_all)
