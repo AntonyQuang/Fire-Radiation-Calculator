@@ -25,13 +25,13 @@ import pandas as pd
 
 # all_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
 
-def calculate(all_inputs):
+def calculate(processed_inputs):
     # Separating the inputs
-    titles = all_inputs[0]
-    widths = all_inputs[1]
-    heights = all_inputs[2]
-    fire_parameters = all_inputs[3]
-    fire_growth = all_inputs[4]
+    titles = processed_inputs[0]
+    widths = processed_inputs[1]
+    heights = processed_inputs[2]
+    fire_parameters = processed_inputs[3]
+    fire_growth = processed_inputs[4]
 
     # Setting out Titles
     calc_title = titles["Calculation Title"]
