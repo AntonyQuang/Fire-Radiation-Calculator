@@ -27,7 +27,7 @@ from pprint import pprint
 
 def process_inputs(raw_inputs):
     all_inputs = raw_inputs.copy()
-    pprint(all_inputs)
+
     for entry_dictionary in all_inputs:
         for entry in entry_dictionary:
             parameter = entry_dictionary[entry].get()

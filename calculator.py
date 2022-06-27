@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from pprint import pprint
-from math import sqrt, ceil, pi
+from math import sqrt, ceil, pi, atan
 import pandas as pd
 
 
@@ -24,6 +24,104 @@ import pandas as pd
 # fire_combo_fields = ["Fire Growth Rate, \u03B1, kW/s\u00B2"]
 
 # all_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
+
+
+def view_factor_calc(width, height, distance):
+    x = width / distance
+    y = height / distance
+    sqrt(1 + x ** 2)
+    sqrt(1 + y ** 2)
+    coeff_1 = x / (sqrt(1 + x ** 2))
+    coeff_2 = y / (sqrt(1 + y ** 2))
+    atan_arg_1 = y / (sqrt(1 + x ** 2))
+    atan_arg_2 = x / (sqrt(1 + y ** 2))
+    view_factor = (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / (2 * pi)
+    return view_factor
+
+
+def windows_view_factor_calc(end_outer_w, end_inner_w, centre_w,
+                             end_h, centre_h,
+                             distance):
+    windows_view_factor = view_factor_calc(end_outer_w, end_h, distance) - \
+                          view_factor_calc(end_inner_w, end_h, distance) + \
+                          view_factor_calc(centre_w, centre_h, distance)
+    return windows_view_factor
+
+
+def doors_view_factor_calc(doors_outers_w, doors_inner_w,
+                           doors_h,
+                           distance):
+    doors_view_factor = view_factor_calc(doors_outers_w, doors_h, distance) - \
+                        view_factor_calc(doors_inner_w, doors_h, distance)
+    return doors_view_factor
+
+
+def radiation_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inner_w,
+                   end_h, centre_h, doors_h,
+                   max_windows_heat, max_doors_heat,
+                   distance):
+
+    windows_view_factor = windows_view_factor_calc(end_outer_w, end_inner_w, centre_w,
+                                                   end_h, centre_h,
+                                                   distance)
+
+    doors_view_factor = doors_view_factor_calc(doors_outers_w, doors_inner_w,
+                                               doors_h,
+                                               distance)
+
+    radiation = max_windows_heat * windows_view_factor + max_doors_heat * doors_view_factor
+    return radiation
+
+
+def separation_distance_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inner_w,
+                        end_h, centre_h, doors_h,
+                        max_windows_heat, max_doors_heat):
+    max_iterations = 1000
+    error = 0.0001
+    iterations = 0
+
+    lower_guess = 1 * 10 ** -10
+    # radiation depends on the distance, which we are guessing now
+    # to get radiation you need the overall view factors
+    # to get the overall view factors you need the aggregate view factor
+
+    radiation = radiation_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inner_w,
+                               end_h, centre_h, doors_h,
+                               max_windows_heat, max_doors_heat,
+                               lower_guess)
+
+    if radiation < 2.5:
+        return 0
+
+    upper_guess = 20
+
+    radiation = radiation_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inner_w,
+                               end_h, centre_h, doors_h,
+                               max_windows_heat, max_doors_heat,
+                               upper_guess)
+
+    if radiation > 2.5:
+        return "Error: 20m separation distance exceeded, fire too big?"
+
+    while upper_guess-lower_guess > error and iterations < max_iterations:
+
+        iterations += 1
+
+        new_guess = (upper_guess + lower_guess) / 2
+
+        radiation = radiation_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inner_w,
+                                   end_h, centre_h, doors_h,
+                                   max_windows_heat, max_doors_heat,
+                                   new_guess)
+
+        if radiation < 2.5:
+            #you are too far away to feel the critical heat flux, so you can't guess any further/greater than this
+            upper_guess = new_guess
+        else:
+            lower_guess = new_guess
+
+    return lower_guess
+
 
 def calculate(processed_inputs):
     # Separating the inputs
@@ -52,11 +150,11 @@ def calculate(processed_inputs):
     doors_inner_w = widths["Doors' inner width, m"]
 
     # Setting out height constants
-    end_height = heights["End windows' height, m"]
-    centre_height = heights["Centre windows' height, m"]
-    doors_height = heights["Doors' height, m"]
-    window_midheight = heights["Windows' midpoint height from floor, m"]
-    doors_midheight = heights["Doors' midpoint height from floor, m"]
+    end_h = heights["End windows' height, m"]
+    centre_h = heights["Centre windows' height, m"]
+    doors_h = heights["Doors' height, m"]
+    window_mid_h = heights["Windows' midpoint height from floor, m"]
+    doors_mid_h = heights["Doors' midpoint height from floor, m"]
 
     # Setting out time constants
 
@@ -74,7 +172,8 @@ def calculate(processed_inputs):
                "Windows Temperature, K",
                "Doors Temperature, K",
                "Maximum Windows Heat, kW/m2",
-               "Maximum Doors Heat, kW/m2"]
+               "Maximum Doors Heat, kW/m2",
+               "Separation Distance, m"]
 
     time_s = []
     time_m = []
@@ -85,15 +184,23 @@ def calculate(processed_inputs):
     doors_temp = []
     max_windows_heat = []
     max_doors_heat = []
+    separation_distance = []
 
     for i in range(time_period):
         time_s.append(i)
-        time_m.append(time_s[i]/60)
-        hrr.append(alpha*time_s[i]**2)
-        diameter.append(2*sqrt(hrr[i]/(pi*hrrpua)))
-        z0.append(-1.02*diameter[i]+0.083*hrr[i]**(2/5))
-        windows_temp.append(293+25*(conv_fraction*hrr[i])**(2/3)*(window_midheight-z0[i])**(-5/3))
-        doors_temp.append(293+25*(conv_fraction*hrr[i])**(2/3)*(doors_midheight-z0[i])**(-5/3))
-        max_windows_heat.append(1*sigma*windows_temp[i]**4)
-        max_doors_heat.append(1*sigma*doors_temp[i]**4)
+        time_m.append(time_s[i] / 60)
+        hrr.append(alpha * time_s[i] ** 2)
+        diameter.append(2 * sqrt(hrr[i] / (pi * hrrpua)))
+        z0.append(-1.02 * diameter[i] + 0.083 * hrr[i] ** (2 / 5))
+        windows_temp.append(293 + 25 * (conv_fraction * hrr[i]) ** (2 / 3) * (window_mid_h - z0[i]) ** (-5 / 3))
+        doors_temp.append(293 + 25 * (conv_fraction * hrr[i]) ** (2 / 3) * (doors_mid_h - z0[i]) ** (-5 / 3))
+        max_windows_heat.append(1 * sigma * windows_temp[i] ** 4)
+        max_doors_heat.append(1 * sigma * doors_temp[i] ** 4)
+        separation_distance_calculated = separation_distance_calc(end_outer_w, end_inner_w, centre_w,
+                                                             doors_outers_w, doors_inner_w,
+                                                             end_h, centre_h, doors_h,
+                                                             max_windows_heat[i], max_doors_heat[i]
+                                                             )
+        separation_distance.append(separation_distance_calculated)
 
+    pprint(separation_distance)
