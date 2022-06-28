@@ -55,7 +55,7 @@ def process_inputs(raw_inputs):
     processed_inputs[3] = {entry: float(all_inputs[3][entry].get()) for entry in all_inputs[3]}
     processed_inputs[4] = {entry: all_inputs[4][entry].get() for entry in all_inputs[4]}
 
-    if processed_inputs[1]["End windows' outer width, m"] <= processed_inputs[1]["End windows' inner width, m"]:
+    if processed_inputs[1]["End windows' outer width, m"] < processed_inputs[1]["End windows' inner width, m"]:
         return messagebox.showerror(title="Error - Incompatible Dimensions for End Windows",
                                     message=f'Please enter an outer width greater than an inner width')
 
