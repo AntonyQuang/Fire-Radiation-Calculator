@@ -1,6 +1,4 @@
-from tkinter import *
-from tkinter.ttk import *
-from pprint import pprint
+
 from math import sqrt, ceil, pi, atan
 import pandas as pd
 
@@ -60,7 +58,6 @@ def radiation_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inn
                    end_h, centre_h, doors_h,
                    max_windows_heat, max_doors_heat,
                    distance):
-
     windows_view_factor = windows_view_factor_calc(end_outer_w, end_inner_w, centre_w,
                                                    end_h, centre_h,
                                                    distance)
@@ -74,8 +71,8 @@ def radiation_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inn
 
 
 def separation_distance_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inner_w,
-                        end_h, centre_h, doors_h,
-                        max_windows_heat, max_doors_heat):
+                             end_h, centre_h, doors_h,
+                             max_windows_heat, max_doors_heat):
     max_iterations = 1000
     error = 0.0001
     iterations = 0
@@ -103,7 +100,7 @@ def separation_distance_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w,
     if radiation > 2.5:
         return "Error: 20m separation distance exceeded, fire too big?"
 
-    while upper_guess-lower_guess > error and iterations < max_iterations:
+    while upper_guess - lower_guess > error and iterations < max_iterations:
 
         iterations += 1
 
@@ -115,7 +112,7 @@ def separation_distance_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w,
                                    new_guess)
 
         if radiation < 2.5:
-            #you are too far away to feel the critical heat flux, so you can't guess any further/greater than this
+            # you are too far away to feel the critical heat flux, so you can't guess any further/greater than this
             upper_guess = new_guess
         else:
             lower_guess = new_guess
@@ -197,10 +194,21 @@ def calculate(processed_inputs):
         max_windows_heat.append(1 * sigma * windows_temp[i] ** 4)
         max_doors_heat.append(1 * sigma * doors_temp[i] ** 4)
         separation_distance_calculated = separation_distance_calc(end_outer_w, end_inner_w, centre_w,
-                                                             doors_outers_w, doors_inner_w,
-                                                             end_h, centre_h, doors_h,
-                                                             max_windows_heat[i], max_doors_heat[i]
-                                                             )
+                                                                  doors_outers_w, doors_inner_w,
+                                                                  end_h, centre_h, doors_h,
+                                                                  max_windows_heat[i], max_doors_heat[i]
+                                                                  )
         separation_distance.append(separation_distance_calculated)
 
-    pprint(separation_distance)
+    df = pd.DataFrame({"Time, s": time_s,
+                       "Time, min": time_m,
+                       "HRR, kW": hrr,
+                       "Diameter, m": diameter,
+                       "z0": z0,
+                       "Windows Temperature, K": windows_temp,
+                       "Doors Temperature, K": doors_temp,
+                       "Maximum Windows Heat, kW/m2": max_windows_heat,
+                       "Maximum Doors Heat, kW/m2": max_doors_heat,
+                       "Separation Distance, m": separation_distance})
+
+    df.to_excel(f'{calc_title}.xlsx', sheet_name="Results", index=False, float_format="%.2f")
