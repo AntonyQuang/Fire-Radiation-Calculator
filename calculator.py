@@ -1,4 +1,4 @@
-
+from tkinter import messagebox
 from math import sqrt, ceil, pi, atan
 import pandas as pd
 
@@ -27,13 +27,24 @@ import pandas as pd
 def view_factor_calc(width, height, distance):
     x = width / distance
     y = height / distance
-    sqrt(1 + x ** 2)
-    sqrt(1 + y ** 2)
     coeff_1 = x / (sqrt(1 + x ** 2))
     coeff_2 = y / (sqrt(1 + y ** 2))
     atan_arg_1 = y / (sqrt(1 + x ** 2))
     atan_arg_2 = x / (sqrt(1 + y ** 2))
-    view_factor = (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / (2 * pi)
+
+    view_factor = (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / (2*pi)
+
+    # The AECOM way: Which is wrong!!
+    # x = width / distance / 2
+    # y = height / distance / 2
+    # a = sqrt(1 + x ** 2)
+    # b = sqrt(1 + y ** 2)
+    # coeff_1 = x / a
+    # coeff_2 = y / b
+    # atan_arg_1 = y / a
+    # atan_arg_2 = x / b
+    #
+    # view_factor = 2 * (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / 3.14159265358979
     return view_factor
 
 
@@ -77,7 +88,7 @@ def separation_distance_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w,
     error = 0.0001
     iterations = 0
 
-    lower_guess = 1 * 10 ** -10
+    lower_guess = 1 * 10 ** -100
     # radiation depends on the distance, which we are guessing now
     # to get radiation you need the overall view factors
     # to get the overall view factors you need the aggregate view factor
@@ -132,9 +143,8 @@ def calculate(processed_inputs):
     calc_title = titles["Calculation Title"]
 
     # Setting out fire constants
-    fire_growth_rates = {"Slow": 0.0029, "Medium": 0.0117, "Fast": 0.047, "Ultra-fast": 0.188}
+    fire_growth_rates = {"Slow": 0.00293, "Medium": 0.01172, "Fast": 0.0469, "Ultra-fast": 0.1876}
     alpha = fire_growth_rates[fire_growth["Fire Growth Rate, \u03B1, kW/s\u00B2"]]
-    print(alpha)
     max_hrr = fire_parameters["Maximum Fire Size, MW"] * 1000
     hrrpua = fire_parameters["Heat Release Rate per Unit Area, kW/m\u00B2"]
     conv_fraction = fire_parameters["Convection Fraction (0 to 1)"]
@@ -156,7 +166,7 @@ def calculate(processed_inputs):
     # Setting out time constants
 
     dt = 1
-    time_period = ceil(sqrt(max_hrr / alpha))
+    time_period = ceil(sqrt(max_hrr / alpha)) 
 
     # Setting out misc constants
     sigma = 5.67 * 10 ** -11  # Stefan-Boltzmann constant is approximately 5.67 x 10 -11 (kW · m -2 · K -4 ).
@@ -200,6 +210,24 @@ def calculate(processed_inputs):
                                                                   )
         separation_distance.append(separation_distance_calculated)
 
+    # Creating an entry for the max_hrr
+
+    hrr.append(max_hrr)
+    time_s.append(ceil(sqrt(max_hrr / alpha)))
+    time_m.append(time_s[-1]/60)
+    diameter.append(2 * sqrt(hrr[-1] / (pi * hrrpua)))
+    z0.append(-1.02 * diameter[-1] + 0.083 * hrr[-1] ** (2 / 5))
+    windows_temp.append(293 + 25 * (conv_fraction * hrr[-1]) ** (2 / 3) * (window_mid_h - z0[-1]) ** (-5 / 3))
+    doors_temp.append(293 + 25 * (conv_fraction * hrr[-1]) ** (2 / 3) * (doors_mid_h - z0[-1]) ** (-5 / 3))
+    max_windows_heat.append(1 * sigma * windows_temp[-1] ** 4)
+    max_doors_heat.append(1 * sigma * doors_temp[-1] ** 4)
+    separation_distance_calculated = separation_distance_calc(end_outer_w, end_inner_w, centre_w,
+                                                              doors_outers_w, doors_inner_w,
+                                                              end_h, centre_h, doors_h,
+                                                              max_windows_heat[-1], max_doors_heat[-1]
+                                                              )
+    separation_distance.append(separation_distance_calculated)
+    
     df = pd.DataFrame({"Time, s": time_s,
                        "Time, min": time_m,
                        "HRR, kW": hrr,
@@ -211,4 +239,5 @@ def calculate(processed_inputs):
                        "Maximum Doors Heat, kW/m2": max_doors_heat,
                        "Separation Distance, m": separation_distance})
 
-    df.to_excel(f'{calc_title}.xlsx', sheet_name="Results", index=False, float_format="%.2f")
+    df.to_excel(f'{calc_title}.xlsx', sheet_name="Results", index=False)
+    messagebox.showinfo(title="Calculations Completed", message="A spreadsheet of the calculations have been created.")
