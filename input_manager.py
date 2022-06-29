@@ -55,6 +55,15 @@ def process_inputs(raw_inputs):
     processed_inputs[3] = {entry: float(all_inputs[3][entry].get()) for entry in all_inputs[3]}
     processed_inputs[4] = {entry: all_inputs[4][entry].get() for entry in all_inputs[4]}
 
+    forbidden_filename_char ='\/:*?|"<>'
+
+    for char in processed_inputs[0]["Calculation Title"]:
+        print(char)
+        if char in forbidden_filename_char:
+            return messagebox.showerror(title="Error - Unusable Title Name",
+                                        message=f'Calculation Title cannot contain any of the following characters:'
+                                                f' \ / : * ? | " < >')
+
     if processed_inputs[1]["End windows' outer width, m"] < processed_inputs[1]["End windows' inner width, m"]:
         return messagebox.showerror(title="Error - Incompatible Dimensions for End Windows",
                                     message=f'Please enter an outer width greater than an inner width')
@@ -80,10 +89,8 @@ def process_inputs(raw_inputs):
         return messagebox.showerror(title="Error - Incorrect Convection Fraction",
                                     message='Please enter a convection fraction between 0 and 1')
 
-
-
     calculate(processed_inputs)
 
     all_inputs = []
-    processed_inputs=[]
+    processed_inputs = []
     print("Calculation completed")
