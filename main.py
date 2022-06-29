@@ -151,6 +151,12 @@ reset_default_button.grid(row=12, column=0, pady=10, padx=10, sticky=E)
 quit_button = Button(input_tab, text="Quit", style="body.TButton", padding=(0, 5), command=root.destroy)
 quit_button.grid(row=13, column=0, pady=10, sticky=W)
 
+# Copyright Label
+revision_label = Label(input_tab, text="Version 0.9, 29/06/2022")
+revision_label.grid(row=14, column=0, sticky=W)
+credit_label = Label(input_tab, text="Antony Quang")
+credit_label.grid(row=15, column=0, sticky=W)
+
 # ----- Geometry Help Tab ----- #
 
 # Images
