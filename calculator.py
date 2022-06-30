@@ -171,16 +171,16 @@ def calculate(processed_inputs):
     # Setting out misc constants
     sigma = 5.67 * 10 ** -11  # Stefan-Boltzmann constant is approximately 5.67 x 10 -11 (kW · m -2 · K -4 ).
 
-    columns = ["Time, s",
-               "Time, min",
-               "HRR, kW",
-               "Diameter, m",
-               "z0",
-               "Windows Temperature, K",
-               "Doors Temperature, K",
-               "Maximum Windows Heat, kW/m2",
-               "Maximum Doors Heat, kW/m2",
-               "Separation Distance, m"]
+    # columns = ["Time, s",
+    #            "Time, min",
+    #            "HRR, kW",
+    #            "Diameter, m",
+    #            "z0",
+    #            "Windows Temperature, K",
+    #            "Doors Temperature, K",
+    #            "Maximum Windows Heat, kW/m2",
+    #            "Maximum Doors Heat, kW/m2",
+    #            "Separation Distance, m"]
 
     time_s = []
     time_m = []
@@ -193,7 +193,7 @@ def calculate(processed_inputs):
     max_doors_heat = []
     separation_distance = []
 
-    for i in range(time_period):
+    for i in range(ceil(time_period/dt)):
         time_s.append(i)
         time_m.append(time_s[i] / 60)
         hrr.append(alpha * time_s[i] ** 2)
