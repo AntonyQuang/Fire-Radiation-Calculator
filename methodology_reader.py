@@ -1,5 +1,4 @@
 import os
-from pprint import pprint
 
 
 txt_quantity = 0
@@ -26,4 +25,3 @@ for path in os.listdir(equation_dir):
 for i in range(1, equation_quantity+1):
     equation_file_name = f"{equation_dir}/equation {i}.png"
     methodology_equations.append(equation_file_name)
-
