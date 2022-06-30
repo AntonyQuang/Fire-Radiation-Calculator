@@ -1,8 +1,6 @@
-from tkinter import *
-from tkinter.ttk import *
 from tkinter import messagebox
 from calculator import calculate
-from pprint import pprint
+
 
 # widths_fields = ["End windows' outer width, m",
 #                  "End windows' inner width, m",
@@ -32,8 +30,8 @@ def process_inputs(raw_inputs):
         for entry in entry_dictionary:
             parameter = entry_dictionary[entry].get()
             if not parameter:
-                return messagebox.showerror(title="Error - Unfilled field", message=f'Please do not leave the "{entry}" '
-                                                                                    f'field empty')
+                return messagebox.showerror(title="Error - Empty field", message=f'Please do not leave the "{entry}" '
+                                                                                 f'field empty')
 
     for entry_dictionary in [all_inputs[1], all_inputs[2], all_inputs[3]]:
         for entry in entry_dictionary:
@@ -55,10 +53,9 @@ def process_inputs(raw_inputs):
     processed_inputs[3] = {entry: float(all_inputs[3][entry].get()) for entry in all_inputs[3]}
     processed_inputs[4] = {entry: all_inputs[4][entry].get() for entry in all_inputs[4]}
 
-    forbidden_filename_char ='\/:*?|"<>'
+    forbidden_filename_char = '\/:*?|"<>'
 
     for char in processed_inputs[0]["Calculation Title"]:
-        print(char)
         if char in forbidden_filename_char:
             return messagebox.showerror(title="Error - Unusable Title Name",
                                         message=f'Calculation Title cannot contain any of the following characters:'
