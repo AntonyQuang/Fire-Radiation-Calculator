@@ -76,7 +76,8 @@ fire_title_label.grid(row=7, column=0, sticky=W)
 
 # Fire alpha
 
-fire_growth_rate_label = Label(input_tab, text="Fire Growth Rate, \u03B1, kW/s\u00B2", style="body.TLabel", padding=(0, 5))
+fire_growth_rate_label = Label(input_tab, text="Fire Growth Rate, \u03B1, kW/s\u00B2",
+                               style="body.TLabel", padding=(0, 5))
 fire_growth_rate_label.grid(row=11, column=0)
 
 fire_growth_rates = ["Slow", "Medium", "Fast", "Ultra-fast"]
