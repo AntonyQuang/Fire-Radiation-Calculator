@@ -2,6 +2,22 @@ from tkinter import *
 from tkinter.ttk import *
 from methodology_reader import methodology_text, methodology_equations
 from input_manager import process_inputs
+import os
+import sys
+
+# ------ PATHFINDER ----- #
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 # ------ UI SETUP ------ #
 
@@ -161,7 +177,8 @@ credit_label.grid(row=15, column=0, sticky=W)
 # ----- Geometry Help Tab ----- #
 
 # Images
-train_img = PhotoImage(file="diagram_small.png")
+diagram_file = resource_path("diagram_small.png")
+train_img = PhotoImage(file=diagram_file)
 img_label = Label(train_img_tab, image=train_img)
 img_label.grid(row=0, column=0, rowspan=15, padx=10)
 
