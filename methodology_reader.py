@@ -1,9 +1,21 @@
 import os
+import sys
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 txt_quantity = 0
 methodology_text = []
-text_dir = "methodology text"
+text_dir = resource_path("methodology text")
 
 for path in os.listdir(text_dir):
     if os.path.isfile(os.path.join(text_dir, path)):
