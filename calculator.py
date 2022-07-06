@@ -25,26 +25,27 @@ import pandas as pd
 
 
 def view_factor_calc(width, height, distance):
-    x = width / distance
-    y = height / distance
-    coeff_1 = x / (sqrt(1 + x ** 2))
-    coeff_2 = y / (sqrt(1 + y ** 2))
-    atan_arg_1 = y / (sqrt(1 + x ** 2))
-    atan_arg_2 = x / (sqrt(1 + y ** 2))
-
-    view_factor = (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / (2*pi)
-
-    # The AECOM way: Which is wrong!!
-    # x = width / distance / 2
-    # y = height / distance / 2
-    # a = sqrt(1 + x ** 2)
-    # b = sqrt(1 + y ** 2)
-    # coeff_1 = x / a
-    # coeff_2 = y / b
-    # atan_arg_1 = y / a
-    # atan_arg_2 = x / b
+    # This way is only for the corner of the rectangle
+    # x = width / distance
+    # y = height / distance
+    # coeff_1 = x / (sqrt(1 + x ** 2))
+    # coeff_2 = y / (sqrt(1 + y ** 2))
+    # atan_arg_1 = y / (sqrt(1 + x ** 2))
+    # atan_arg_2 = x / (sqrt(1 + y ** 2))
     #
-    # view_factor = 2 * (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / 3.14159265358979
+    # view_factor = (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / (2*pi)
+
+    # The AECOM way: Which is right!!
+    x = width / distance / 2
+    y = height / distance / 2
+    a = sqrt(1 + x ** 2)
+    b = sqrt(1 + y ** 2)
+    coeff_1 = x / a
+    coeff_2 = y / b
+    atan_arg_1 = y / a
+    atan_arg_2 = x / b
+
+    view_factor = 2 * (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / 3.14159265358979
     return view_factor
 
 
