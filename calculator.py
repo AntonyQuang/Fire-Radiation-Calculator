@@ -102,7 +102,7 @@ def separation_distance_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w,
     if radiation < 2.5:
         return 0
 
-    upper_guess = 20
+    upper_guess = 120
 
     radiation = radiation_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w, doors_inner_w,
                                end_h, centre_h, doors_h,
@@ -110,7 +110,7 @@ def separation_distance_calc(end_outer_w, end_inner_w, centre_w, doors_outers_w,
                                upper_guess)
 
     if radiation > 2.5:
-        return "Error: 20m separation distance exceeded, fire too big?"
+        return "Error: 120m separation distance exceeded, fire too big?"
 
     while upper_guess - lower_guess > error and iterations < max_iterations:
 
