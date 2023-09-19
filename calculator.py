@@ -3,39 +3,9 @@ from math import sqrt, ceil, pi, atan
 import pandas as pd
 
 
-# widths_fields = ["End windows' outer width, m",
-#                  "End windows' inner width, m",
-#                  "Centre windows' outer width, m",
-#                  "Doors' outer width, m",
-#                  "Doors' inner width, m"]
-#
-# heights_fields = ["End windows' height, m",
-#                   "Centre windows' height, m",
-#                   "Windows' midpoint height from floor, m",
-#                   "Doors' height, m",
-#                   "Doors' midpoint height from floor, m"]
-#
-# fire_fields = ["Maximum Fire Size, MW",
-#                "Heat Release Rate per Unit Area, kW/m\u00B2",
-#                "Convection Fraction (0 to 1)"]
-#
-# fire_combo_fields = ["Fire Growth Rate, \u03B1, kW/s\u00B2"]
-
-# all_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
 
 
 def view_factor_calc(width, height, distance):
-    # This way is only for the corner of the rectangle
-    # x = width / distance
-    # y = height / distance
-    # coeff_1 = x / (sqrt(1 + x ** 2))
-    # coeff_2 = y / (sqrt(1 + y ** 2))
-    # atan_arg_1 = y / (sqrt(1 + x ** 2))
-    # atan_arg_2 = x / (sqrt(1 + y ** 2))
-    #
-    # view_factor = (coeff_1 * atan(atan_arg_1) + coeff_2 * atan(atan_arg_2)) / (2*pi)
-
-    # The AECOM way: Which is right!!
     x = width / distance / 2
     y = height / distance / 2
     a = sqrt(1 + x ** 2)
@@ -171,17 +141,6 @@ def calculate(processed_inputs):
 
     # Setting out misc constants
     sigma = 5.67 * 10 ** -11  # Stefan-Boltzmann constant is approximately 5.67 x 10 -11 (kW · m -2 · K -4 ).
-
-    # columns = ["Time, s",
-    #            "Time, min",
-    #            "HRR, kW",
-    #            "Diameter, m",
-    #            "z0",
-    #            "Windows Temperature, K",
-    #            "Doors Temperature, K",
-    #            "Maximum Windows Heat, kW/m2",
-    #            "Maximum Doors Heat, kW/m2",
-    #            "Separation Distance, m"]
 
     time_s = []
     time_m = []
