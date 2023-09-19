@@ -46,7 +46,7 @@ main.py: Contains the GUI and the entry point for the application.
 
 1. Clone the repository:
 
-```$ git clone https://github.com/AntonyQuang/Allergy-Menu-Map.git```
+```$ git clone https://github.com/AntonyQuang/Fire-Radiation-Calculator.git```
 
 
 2. Install the required packages:
