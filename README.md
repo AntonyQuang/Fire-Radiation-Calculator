@@ -22,7 +22,7 @@ The project consists of the following directories and files:
 ├── calculator.py
 ├── input_manager.py
 ├── methodology_reader.py
-└── run.py
+└── main.py
 ```
 
 
