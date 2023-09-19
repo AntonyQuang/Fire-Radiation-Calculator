@@ -4,7 +4,7 @@ A TKinter app that calculates how close a train passenger can stand away from a 
 
 # Repository Description:
 
-![Fire Radiation Calculator](/images/calculator.png)
+![Fire Radiation Calculator](images/calculator.png)
 
 This is a Python-based GUI application that allows users to calculate how close railway passengers can be near a train on fire to aid railway station design.
 
@@ -18,6 +18,7 @@ The project consists of the following directories and files:
 ├── methodology equations/
 ├── methodology text/
 ├── images/
+├── requirements.txt
 ├── calculator.py
 ├── input_manager.py
 ├── methodology_reader.py
@@ -25,15 +26,21 @@ The project consists of the following directories and files:
 ```
 
 
-instance/: Contains SQL lite database for the application.
+methodology equations/: Contains images of equations used in the calculator.
 
-migrations/: Contains the various migrations for the SQL lite database for the application.
+methodology text/: Contains text files of paragraphs explaining the equations used in the calculator.
 
-config.py: Contains the configuration settings for the application.
+images/: Contains images of train geometry.
 
 requirements.txt: Lists the required packages and dependencies for the application.
 
-run.py: The entry point for the application.
+calculator.py: Calculates output variables using the bi-section method, and collates that to a spreadsheet file
+
+input_manager.py: Collect user inputs and arranges it to be compatible with calculator.py
+
+methodology_reader.py: Reads the files in the "methodology equations" and "methodology text" 
+
+main.py: Contains the GUI and the entry point for the application.
 
 # First Time Set-up:
 
@@ -41,50 +48,14 @@ run.py: The entry point for the application.
 
 ```$ git clone https://github.com/AntonyQuang/Allergy-Menu-Map.git```
 
-2. Create a virtual environment and activate it:
 
-```$ python3 -m venv env 
-$ source env/bin/activate`
-```
-3. Install the required packages:
+2. Install the required packages:
 
 ```$ pip install -r requirements.txt```
 
-Ensure that the Flask-Googlemaps package in installed from [this github link](https://github.com/flask-extensions/Flask-GoogleMaps/releases/tag/0.4.1.1)
+3. Run the application:
 
-If you wish to do this separately you can do so with
-
-```$pip install https://github.com/flask-extensions/Flask-GoogleMaps/archive/refs/tags/0.4.1.1.tar.gz```
-
-4. Set up your individual .env file which contains:
- - Your Google API Key
- - Your Flask Secret Key
- - Your SQL Alchemy database uri
- - Your ipinfo token
-
-5. Set up the database:
-
-```
-$ export FLASK_APP=run.py
-$ flask db init
-$ flask db migrate
-$ flask db upgrade`
-```
-6. Run the application:
-
-`  $ flask run`
-
-# Persistent Environments:
-
-This application uses a SQLite database by default. To switch to a different database, update the SQLALCHEMY_DATABASE_URI in config.py.
-
-# Deployment:
-
-The application can be deployed to a production environment using a web server such as Gunicorn or uWSGI.
-
-# Code Style and Standards:
-
-This project follows the PEP 8 (python.org/dev/peps/pep-0008/) coding style guidelines.
+``` $ python main.py ```
 
 # License Information:
 
@@ -92,4 +63,5 @@ This project is licensed under the MIT License (opensource.org/licenses/MIT).
 
 # Status and Roadmap
 
-The application is currently in a functional state, but there is still room for improvement and new features to be added. The project roadmap includes transferring the database to a PostgreSQL database format, improving the website scalability, and integrating email functions.
+The application is currently in a functional state, having already been used in a professional environment, but there is still room for improvement and new features to be added.
+The project roadmap includes adding compatibility for more train types and visual updates.
