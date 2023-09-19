@@ -177,7 +177,7 @@ credit_label.grid(row=15, column=0, sticky=W)
 # ----- Geometry Help Tab ----- #
 
 # Images
-diagram_file = resource_path("diagram_small.png")
+diagram_file = resource_path("images/diagram_small.png")
 train_img = PhotoImage(file=diagram_file)
 img_label = Label(train_img_tab, image=train_img)
 img_label.grid(row=0, column=0, rowspan=15, padx=10)
