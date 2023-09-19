@@ -9,7 +9,7 @@ import sys
 
 
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
+    #Get absolute path to resource, works for dev and for PyInstaller
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
@@ -169,8 +169,8 @@ quit_button = Button(input_tab, text="Quit", style="body.TButton", padding=(0, 5
 quit_button.grid(row=13, column=0, pady=10, sticky=W)
 
 # Copyright Label
-revision_label = Label(input_tab, text="Version 0.9, 29/06/2022")
-revision_label.grid(row=14, column=0, sticky=W)
+# revision_label = Label(input_tab, text="Version 0.9, 29/06/2022")
+# revision_label.grid(row=14, column=0, sticky=W)
 credit_label = Label(input_tab, text="Antony Quang")
 credit_label.grid(row=15, column=0, sticky=W)
 
