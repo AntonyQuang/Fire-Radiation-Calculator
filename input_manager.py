@@ -2,27 +2,6 @@ from tkinter import messagebox
 from calculator import calculate
 
 
-# widths_fields = ["End windows' outer width, m",
-#                  "End windows' inner width, m",
-#                  "Centre windows' outer width, m",
-#                  "Doors' outer width, m",
-#                  "Doors' inner width, m"]
-#
-# heights_fields = ["End windows' height, m",
-#                   "Centre windows' height, m",
-#                   "Windows' midpoint height from floor, m",
-#                   "Doors' height, m",
-#                   "Doors' midpoint height from floor, m"]
-#
-# fire_fields = ["Maximum Fire Size, MW",
-#                "Heat Release Rate per Unit Area, kW/m\u00B2",
-#                "Convection Fraction (0 to 1)"]
-#
-# fire_combo_fields = ["Fire Growth Rate, \u03B1, kW/s\u00B2"]
-
-# all_inputs = [title_entries, widths_entries, heights_entries, fire_entries, fire_growth_entries]
-
-
 def process_inputs(raw_inputs):
     all_inputs = raw_inputs.copy()
 
