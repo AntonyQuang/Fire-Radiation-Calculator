@@ -4,7 +4,7 @@ A TKinter app that calculates how close a train passenger can stand away from a 
 
 # Repository Description:
 
-![Fire Radiation Calculator](images/calculator.png)
+![Fire Radiation Calculator](/images/calculator.png)
 
 This is a Python-based GUI application that allows users to calculate how close railway passengers can be near a train on fire to aid railway station design.
 
